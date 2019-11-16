@@ -1,0 +1,66 @@
+<html>
+
+<head>
+
+<style>
+#editor {
+    position: relative;
+    width: 500px;
+    height: 400px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="editor">tasks.register('sayHello') {
+  doLast {
+    println 'Hello, World!'
+  }
+}
+</div>
+<script src="src/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="src/mode-groovy.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  var editor = ace.edit("editor");
+
+  var GroovyMode = ace.require("ace/mode/groovy").Mode;
+  editor.session.setMode(new GroovyMode());
+</script>
+
+<pre id="output"></pre>
+<div id="input">
+  <input id="args" type="text" value="sayHello" />
+  <button id="sendCommand" onclick="sendCommand()">Send</button>
+</div>
+
+<script>
+async function sendCommand() {
+  console.log("sending command");
+  const args = document.getElementById("args");
+
+  var editor = ace.edit("editor");
+  const content = btoa(editor.getValue());
+  
+  const data = {
+    data: content,
+    args: args.value
+  }
+  const response = await fetch("http://167.172.224.153/", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+
+
+  const g = await response.text();
+  const outputElement = document.getElementById("output");
+  outputElement.innerHTML = g;
+}
+</script>
+
+</body>
+</html>
