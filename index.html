@@ -88,6 +88,18 @@
     }
     runFakeTerminal();
 
+var urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has("content")) {
+  editor.setValue(atob(urlParams.get("content")), -1);
+} else {
+  editor.setValue(`tasks.register('sayHello') {
+  doLast {
+    println 'Hello, World!'
+  }
+}
+`, -1);
+}
+
 async function sendCommand() {
   console.log("sending command " + term.currentLine);
   const args = term.currentLine;
