@@ -14,11 +14,11 @@
   <meta name="twitter:description" content="The Gradle Web Console allows users to quickly execute Gradle build scripts!"/>
 <style>
   .ace_editor {
-		border: 1px solid lightgray;
-		margin: auto;
-		height: 400px;
-		width: 80%;
-	}
+    border: 1px solid lightgray;
+    margin: auto;
+    height: 320px;
+    width: 80%;
+  }
   html {
     font-family: "Lato","Helvetica Neue",Arial,sans-serif;
     font-size: 16px;
@@ -28,11 +28,11 @@
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-}
-a {
+  }
+  a {
     color: #1da2bd;
     text-decoration: none;
-}
+  }
 
   .notification {
     display: flex;
@@ -41,7 +41,7 @@ a {
     background-color: #02303A;
     text-align: center;
     color: white;
-}
+  }
   .notification__text {
     align-self: center;
     flex: 1 1 auto;
@@ -50,20 +50,44 @@ a {
     line-height: 1.2em;
     padding-top: 12px;
     padding-bottom: 12px;
-}
+  }
   .notification a {
     text-decoration: underline;
-}
+  }
   .notification a, .notification strong {
     color: white;
-}
+  }
   .site-layout__layout {
     display: flex;
     flex-direction: column;
     min-height: 100%;
-}
+  }
   section {
-        margin-top: 20px;
+    margin-top: 20px;
+  }
+
+
+  @media only screen and (min-width: 768px) {
+    footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 70px;
+    }
+
+    .footer-left {
+      flex: 50%;
+      display: inline-block;
+    }
+
+    .footer-right {
+      margin: 0;
+      display: inline-block;
+    }
+    .footer-right a {
+      margin-right: 0;
+      margin-left: 20px;
+      display: inline;
+    }
   }
 </style>
 <link rel="stylesheet" href="https://unpkg.com/xterm@4.2.0/css/xterm.css" />
@@ -71,18 +95,31 @@ a {
 </head>
 
 <body class="site-layout__layout">
+
   <div class="notification">
     <span class="notification__text">By using this website you agree to the <a href="https://gradle.com/legal/terms-of-service/" target="_blank">Gradle Terms of Service</a>. If you don't agree, <a href="https://github.com/lacasseio/gradlewebconsole/issues/1" target="_blank">upvote this issue</a>.</span>
   </div>
+
   <main>
     <section class="editor">
-<pre id="editor">tasks.register('sayHello') {
-  doLast {
-    println 'Hello, World!'
-  }
-}
-</pre>
+      <pre id="editor"></pre>
     </section>
+
+    <section class="terminal">
+      <div id="terminal"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-left">
+      <span>&copy; Daniel Lacasse</span>
+    </div>
+    <div class="footer-right">
+      <a href="https://twitter.com/lacasseio">Twitter</a>
+      <a href="https://github.com/lacasseio/gradlewebconsole">GitHub</a>
+    </div>
+  </footer>
+
 <script src="src/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="src/mode-groovy.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://unpkg.com/xterm@4.2.0/lib/xterm.js" type="text/javascript"></script>
@@ -92,12 +129,11 @@ a {
   var GroovyMode = ace.require("ace/mode/groovy").Mode;
   editor.session.setMode(new GroovyMode());
 </script>
-<div id="terminal"></div>
-  </main>
 <script>
     var term = new window.Terminal();
     term.open(document.getElementById('terminal'));
 
+    // TODO: Move this internal state else where
     term.currentLine = "";
     term.disable = false;
 
