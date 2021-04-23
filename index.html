@@ -212,7 +212,7 @@ async function sendCommand() {
     data: content,
     args: term.currentLine
   }
-  const response = await fetch("https://api.gradle.sh/", {
+  const response = await fetch("https://e4dbcd9njg.execute-api.us-west-2.amazonaws.com/dev/gradle-7", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
