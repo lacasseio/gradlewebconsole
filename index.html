@@ -143,6 +143,8 @@
     var term = new window.Terminal();
     term.open(document.getElementById('terminal'));
 
+    term.convertEol = true;
+
     // TODO: Move this internal state else where
     term.currentLine = "";
     term.disable = false;
